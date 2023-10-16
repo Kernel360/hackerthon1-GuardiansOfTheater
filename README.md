@@ -12,4 +12,7 @@
 ## 기능 명세서
 ![image](https://github.com/mooncw/guardians-of-theater/assets/97713997/a5808b07-935e-4e60-9c0b-5e21289f0697)
 
+## API 명세서
+![image](https://github.com/mooncw/guardians-of-theater/assets/97713997/763605e0-678a-4dcb-91f2-41924b715a1d)
+
 ## 기술 스택
