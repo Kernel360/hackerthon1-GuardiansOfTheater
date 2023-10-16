@@ -8,3 +8,6 @@
 ![해커톤1_가디언즈오브시어터 (3)](https://github.com/yejincode/hackerthon1-GuardiansOfTheater/assets/69861207/6e77fed6-f881-49e8-904e-84a49f477fd3)
 ![해커톤1_가디언즈오브시어터 (4)](https://github.com/yejincode/hackerthon1-GuardiansOfTheater/assets/69861207/ef02e6bd-6764-445f-afb6-06e4d76d9a72)
 ![해커톤1_가디언즈오브시어터 (5)](https://github.com/yejincode/hackerthon1-GuardiansOfTheater/assets/69861207/dc07879a-a9c6-4ac8-a72b-99b1a5e712d0)
+
+
+## 기술 스택
