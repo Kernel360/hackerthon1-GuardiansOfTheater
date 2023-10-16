@@ -15,4 +15,8 @@
 ## API 명세서
 ![image](https://github.com/mooncw/guardians-of-theater/assets/97713997/763605e0-678a-4dcb-91f2-41924b715a1d)
 
+## ERD 
+![image](https://github.com/yejincode/hackerthon1-GuardiansOfTheater/assets/69861207/ceb2d93c-c479-4a74-bb2b-c8a087124b80)
+
+
 ## 기술 스택
