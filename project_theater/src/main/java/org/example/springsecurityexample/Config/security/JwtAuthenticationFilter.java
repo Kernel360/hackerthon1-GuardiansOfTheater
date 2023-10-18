@@ -1,4 +1,4 @@
-package org.example.springsecurityexample.security;
+package org.example.springsecurityexample.Config.security;
 //servlet애 도달하기 전에 검증을 완료할 수 있음
 
 
