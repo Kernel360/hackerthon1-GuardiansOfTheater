@@ -1,12 +1,15 @@
-package org.example.springsecurityexample.member;
+package org.example.springsecurityexample.service;
 
-import org.example.springsecurityexample.member.dto.SignRequest;
-import org.example.springsecurityexample.member.dto.SignResponse;
-import org.example.springsecurityexample.security.TokenDto;
-import org.example.springsecurityexample.security.Token;
-import org.example.springsecurityexample.security.JwtProvider;
-import org.example.springsecurityexample.security.TokenRepository;
+import org.example.springsecurityexample.domain.Member;
+import org.example.springsecurityexample.domain.Authority;
+import org.example.springsecurityexample.dto.SignRequest;
+import org.example.springsecurityexample.dto.SignResponse;
+import org.example.springsecurityexample.dto.TokenDto;
+import org.example.springsecurityexample.domain.Token;
+import org.example.springsecurityexample.Config.security.JwtProvider;
+import org.example.springsecurityexample.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
+import org.example.springsecurityexample.repository.MemberRepository;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

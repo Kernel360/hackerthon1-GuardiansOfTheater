@@ -1,4 +1,4 @@
-package org.example.springsecurityexample.member.dto;
+package org.example.springsecurityexample.dto;
 //응답, 반환애 이용할 DTO
 
 import lombok.Getter;

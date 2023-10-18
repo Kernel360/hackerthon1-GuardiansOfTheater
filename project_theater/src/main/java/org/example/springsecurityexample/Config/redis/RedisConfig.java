@@ -1,4 +1,4 @@
-package org.example.springsecurityexample.Config;
+package org.example.springsecurityexample.Config.redis;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
