@@ -1,4 +1,4 @@
-package org.example.springsecurityexample.member;
+package org.example.springsecurityexample.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

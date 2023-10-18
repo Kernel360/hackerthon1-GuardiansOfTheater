@@ -1,4 +1,4 @@
-package org.example.springsecurityexample.security;
+package org.example.springsecurityexample.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
