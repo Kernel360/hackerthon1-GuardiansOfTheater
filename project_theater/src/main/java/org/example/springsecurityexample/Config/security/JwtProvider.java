@@ -1,10 +1,11 @@
-package org.example.springsecurityexample.security;
+package org.example.springsecurityexample.Config.security;
 // JWT 생성 및 검증하기 위한 클래스
 
-import org.example.springsecurityexample.member.Authority;
+import org.example.springsecurityexample.domain.Authority;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.example.springsecurityexample.service.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

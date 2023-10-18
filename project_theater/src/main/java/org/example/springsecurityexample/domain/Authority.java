@@ -1,10 +1,11 @@
-package org.example.springsecurityexample.member;
+package org.example.springsecurityexample.domain;
 //사용자의 권한 목록을 나타내는 엔티티.
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.springsecurityexample.domain.Member;
 
 import javax.persistence.*;
 
