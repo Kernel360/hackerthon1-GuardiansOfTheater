@@ -1,7 +1,7 @@
-package org.example.springsecurityexample.security;
+package org.example.springsecurityexample.Config.security;
 // 스프링 시큐리티는 유저 인증과정에서 유저디테일을 참조하여 인증함
 
-import org.example.springsecurityexample.member.Member;
+import org.example.springsecurityexample.domain.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

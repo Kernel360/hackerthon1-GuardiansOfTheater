@@ -1,8 +1,9 @@
-package org.example.springsecurityexample.security;
+package org.example.springsecurityexample.Config.security;
 //전반적인 설정
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.springsecurityexample.Config.security.JwtAuthenticationFilter;
+import org.example.springsecurityexample.Config.security.JwtProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
