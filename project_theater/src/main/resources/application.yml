@@ -1,13 +1,14 @@
+#server.port: 8085
+
 spring:
   redis:
     host: localhost
     port: 6379
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: root
+    username: chan
+    password: 123
     url: jdbc:mysql://localhost:3306/test_db1
-
   jpa:
     show-sql: true
     properties:
@@ -15,6 +16,12 @@ spring:
         default_batch_fetch_size: 1000
     hibernate:
       ddl-auto: create
+  thymeleaf:
+    prefix: classpath:templates/
+    check-template-location: true
+    suffix: .html
+    model: HTML
+    cache: false
 
 jwt:
   secret:
