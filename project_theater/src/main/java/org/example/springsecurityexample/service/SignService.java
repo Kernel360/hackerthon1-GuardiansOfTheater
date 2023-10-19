@@ -1,5 +1,6 @@
 package org.example.springsecurityexample.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.springsecurityexample.domain.Member;
 import org.example.springsecurityexample.domain.Authority;
 import org.example.springsecurityexample.dto.SignRequest;
@@ -17,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -52,7 +55,7 @@ public class SignService {
                 .build();
     }
 
-//    @Transactional(noRollbackFor = SignResponse.class)
+    //    @Transactional(noRollbackFor = SignResponse.class)
     public boolean register(SignRequest request) throws Exception {
         try {
             Member member = Member.builder()
@@ -64,10 +67,11 @@ public class SignService {
                     .build();
 
             member.setRoles(Collections.singletonList(Authority.builder().name("ROLE_USER").build()));
-
-            memberRepository.save(member);
+            Member m = memberRepository.save(member);
+            log.info("loog : {}", m.toString());
+            log.info("loog: {}", m.getRoles().stream().map(Authority::getName).collect(Collectors.toList()));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.info("loog : {}", e.getMessage());
             throw new Exception("잘못된 요청입니다.");
         }
         return true;
@@ -101,17 +105,20 @@ public class SignService {
     public Token validRefreshToken(Member member, String refreshToken) throws Exception {
         Token token = tokenRepository.findById(member.getId()).orElseThrow(() -> new Exception("만료된 계정입니다. 로그인을 다시 시도하세요"));
         // 해당유저의 Refresh 토큰 만료 : Redis에 해당 유저의 토큰이 존재하지 않음
+        log.info("loog : {}", token.getRefresh_token());
+        log.info("loog : {}", refreshToken);
         if (token.getRefresh_token() == null) {
             return null;
         } else {
             // 리프레시 토큰 만료일자가 얼마 남지 않았을 때 만료시간 연장..?
-            if(token.getExpiration() < 10) {
+            if (token.getExpiration() < 10) {
                 token.setExpiration(1000);
                 tokenRepository.save(token);
             }
-
+            log.info("loog : {}", token.getRefresh_token());
+            log.info("loog : {}", refreshToken);
             // 토큰이 같은지 비교
-            if(!token.getRefresh_token().equals(refreshToken)) {
+            if (!token.getRefresh_token().equals(refreshToken)) {
                 return null;
             } else {
                 return token;
