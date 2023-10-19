@@ -7,7 +7,7 @@
 <body>
 <div id="login-form">
     <h2>Login</h2>
-    <form th:action="@{/api/login}" method="post">
+    <form th:action="@{/login}" th:object="${data}" th:method="POST">
         <label for="account">Account:</label>
         <input type="text" id="account" name="account" required="required"/>
         <br/>
@@ -16,11 +16,11 @@
         <br/>
         <button type="submit">Login</button>
         <div th:if="${error}" class="error-message">
-            <p th:text="${etext}">Error Message</p>
+            <p>Error Message</p>
         </div>
     </form>
 
-    <form th:action="@{/register}" method="get">
+    <form th:action="@{/register/view}" method="get">
         <button type="submit">회원 가입</button>
     </form>
 </div>

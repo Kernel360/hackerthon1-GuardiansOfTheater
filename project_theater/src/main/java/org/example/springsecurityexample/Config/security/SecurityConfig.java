@@ -37,16 +37,16 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register/**", "/login/**", "/refresh", "/","/api/**").permitAll()
+                .antMatchers("/register/**", "/login/**", "/refresh", "/", "/api/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
                 .and()
                 .formLogin()
-                .loginPage("/login") // Set the custom login page
-                .failureUrl("/login")
+                .loginPage("/login/view") // Set the custom login page
+                .failureUrl("/login/view")
                 .defaultSuccessUrl("/user", true).and()
                 .logout()
-                .logoutSuccessUrl("/login?logout").and()
+                .logoutSuccessUrl("/login/view/?logout").and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .accessDeniedHandler(customAccessDeniedHandler()); // Custom access denied handler

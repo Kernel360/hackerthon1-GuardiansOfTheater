@@ -12,6 +12,7 @@ import org.example.springsecurityexample.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.example.springsecurityexample.repository.MemberRepository;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,12 @@ public class SignService {
     private final PasswordEncoder passwordEncoder;
     private final TokenRepository tokenRepository;
     private final JwtProvider jwtProvider;
+
+    public String searchMember(Long id) {
+        Member member = memberRepository.findById(id).orElseThrow(() ->
+                new BadCredentialsException("잘못된 계정정보입니다."));
+        return member.getName();
+    }
 
     public SignResponse login(SignRequest request) throws Exception {
         Member member = memberRepository.findByAccount(request.getAccount()).orElseThrow(() ->

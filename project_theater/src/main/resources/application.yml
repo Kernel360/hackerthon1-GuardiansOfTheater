@@ -16,6 +16,8 @@ spring:
         default_batch_fetch_size: 1000
     hibernate:
       ddl-auto: create
+  thymeleaf3:
+    decoupled-logic: true
   thymeleaf:
     prefix: classpath:templates/
     check-template-location: true
