@@ -4,6 +4,7 @@ package org.example.springsecurityexample.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.springsecurityexample.domain.Authority;
 import org.example.springsecurityexample.dto.SignRequest;
 import org.example.springsecurityexample.dto.SignResponse;
 import org.example.springsecurityexample.dto.TokenDto;
@@ -31,8 +32,9 @@ public class SignController {
         return "auth/login";
     }
 
-    @PostMapping("/login")
-    public String login(
+    @PostMapping("/api/login")
+    @ResponseBody
+    public ResponseEntity<SignResponse> login(
             @RequestBody SignRequest request,
             Model model
     ) throws Exception {
@@ -41,10 +43,15 @@ public class SignController {
                 HttpStatus.OK
         );
         if (!response.getStatusCode().is2xxSuccessful()) {
-            model.addAttribute("error", "로그인 에러");
-            return "LoginButton";
+            model.addAttribute("error", true);
+            model.addAttribute("etext", "로그인 실패");
+            log.info("loog err : {}", model.getAttribute("error"));
+            log.info("loog err : {}", model.getAttribute("error"));
         }
-        return "redirect:/user";
+        log.info("loog response : {}", response.getStatusCode());
+        log.info("loog response : {}", response.getBody().getRoles().stream().map(Authority::getName));
+        model.addAttribute("response", response.getBody());
+        return response;
     }
 
     @GetMapping("/register")
@@ -52,20 +59,22 @@ public class SignController {
         return "auth/register";
     }
 
-    @PostMapping("/register")
-    public String register(
-            SignRequest request
+    @PostMapping("/api/register")
+    @ResponseBody
+    public ResponseEntity<Boolean> register(
+            @RequestBody SignRequest request
     ) throws Exception {
-        boolean isSuccess = signService.register(request);
-        log.info("loog register : {}", isSuccess);
+        ResponseEntity<Boolean> response = new ResponseEntity<>(signService.register(request), HttpStatus.OK);
+        log.info("loog register : {}", response.getStatusCode());
         log.info("loog user : {}", signService.login(request).getAccount());
-        return "redirect:/user";
+//        return "redirect:/user";
+        return response;
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<SignResponse> getUser(@RequestParam String account) throws Exception {
-        return new ResponseEntity<>(signService.getMember(account), HttpStatus.OK);
-    }
+    //    @GetMapping("/user")
+//    public ResponseEntity<SignResponse> getUser(@RequestParam String account) throws Exception {
+//        return new ResponseEntity<>(signService.getMember(account), HttpStatus.OK);
+//
 
     @GetMapping("/admin/get")
     public ResponseEntity<SignResponse> getUserForAdmin(@RequestParam String account) throws Exception {

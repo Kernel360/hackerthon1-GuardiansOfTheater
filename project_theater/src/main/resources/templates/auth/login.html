@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -7,7 +7,7 @@
 <body>
 <div id="login-form">
     <h2>Login</h2>
-    <form th:action="@{/login}" method="post">
+    <form th:action="@{/api/login}" method="post">
         <label for="account">Account:</label>
         <input type="text" id="account" name="account" required="required"/>
         <br/>
@@ -16,7 +16,7 @@
         <br/>
         <button type="submit">Login</button>
         <div th:if="${error}" class="error-message">
-            <p th:text="${error}">Error Message</p>
+            <p th:text="${etext}">Error Message</p>
         </div>
     </form>
 

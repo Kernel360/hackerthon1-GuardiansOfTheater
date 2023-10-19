@@ -1,6 +1,7 @@
 package org.example.springsecurityexample.Config.security;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.List;
 
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -35,7 +37,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register/**", "/login/**", "/refresh", "/").permitAll()
+                .antMatchers("/register/**", "/login/**", "/refresh", "/","/api/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
                 .and()
@@ -47,8 +49,8 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/login?logout").and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
-                .accessDeniedHandler(customAccessDeniedHandler()) // Custom access denied handler
-                .authenticationEntryPoint(customAuthenticationEntryPoint()); // Custom authentication entry point
+                .accessDeniedHandler(customAccessDeniedHandler()); // Custom access denied handler
+//                .authenticationEntryPoint(customAuthenticationEntryPoint()); // Custom authentication entry point
 
         return http.build();
     }
@@ -95,6 +97,9 @@ public class SecurityConfig {
     @Bean
     public AuthenticationEntryPoint customAuthenticationEntryPoint() {
         return (request, response, authException) -> {
+            log.info("loog req : {}", request.getRequestURI());
+            log.info("loog res : {}", response.getStatus());
+            log.info("loog authException : {}", authException.getCause());
             response.setStatus(401);
             response.setCharacterEncoding("utf-8");
             response.setContentType("text/html; charset=UTF-8");

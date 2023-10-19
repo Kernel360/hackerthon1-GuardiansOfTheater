@@ -105,6 +105,8 @@ public class SignService {
     public Token validRefreshToken(Member member, String refreshToken) throws Exception {
         Token token = tokenRepository.findById(member.getId()).orElseThrow(() -> new Exception("만료된 계정입니다. 로그인을 다시 시도하세요"));
         // 해당유저의 Refresh 토큰 만료 : Redis에 해당 유저의 토큰이 존재하지 않음
+        log.info("loog : {}", token.getRefresh_token());
+        log.info("loog : {}", refreshToken);
         if (token.getRefresh_token() == null) {
             return null;
         } else {
@@ -113,7 +115,8 @@ public class SignService {
                 token.setExpiration(1000);
                 tokenRepository.save(token);
             }
-
+            log.info("loog : {}", token.getRefresh_token());
+            log.info("loog : {}", refreshToken);
             // 토큰이 같은지 비교
             if (!token.getRefresh_token().equals(refreshToken)) {
                 return null;

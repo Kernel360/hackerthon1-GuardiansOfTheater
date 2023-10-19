@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
     @GetMapping("/")
     public String root() {
-        return "redirect:/login";
+        return "redirect:auth/login";
     }
 
     private boolean isAuthenticated() {
