@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원정보 수정</title>
+    <!-- 부트스트랩 CSS 링크 -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container text-center mt-5">
+    <h1>회원정보 수정</h1>
+
+    <!-- 극장 정보 수정 폼 -->
+    <form>
+        <!-- theater.name 수정 필드 -->
+        <div class="form-group">
+            <label for="theaterName">극장 이름</label>
+            <input type="text" class="form-control" id="theaterName" name="theaterName" th:value="${theater.name}"
+                   placeholder="극장 이름을 입력하세요" required>
+        </div>
+
+        <!-- theater.working_zone 수정 필드 -->
+        <div class="form-group">
+            <label for="workingZone">근무 지역</label>
+            <input type="text" class="form-control" id="workingZone" name="workingZone"
+                   th:value="${theater.working_zone}" placeholder="근무 지역을 입력하세요" required>
+        </div>
+
+        <!-- 극장 정보 수정 버튼 -->
+        <button type="submit" class="btn btn-primary">극장 정보 수정</button>
+    </form>
+
+    <hr> <!-- 구분선 -->
+
+    <!-- 비밀번호 수정 폼 -->
+    <!--    <form th:action="@{/update-password}" method="post">-->
+    <form>
+        <!-- member.pw 수정 필드 -->
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" class="form-control" id="password" name="password" th:value="${member.pw}"
+                   placeholder="새로운 비밀번호를 입력하세요" required>
+        </div>
+
+        <!-- 비밀번호 수정 버튼 -->
+        <button type="submit" class="btn btn-primary">비밀번호 수정</button>
+    </form>
+</div>
+<!-- 부트스트랩 JavaScript 및 jQuery 링크 -->
+</body>
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+
+<script>
+    function validateTheaterInfoForm() {
+        var theaterName = document.getElementById("theaterName").value;
+        var workingZone = document.getElementById("workingZone").value;
+
+        if (theaterName === "" || workingZone === "") {
+            alert("모든 필드를 입력하세요.");
+            return false;
+        }
+        return true;
+    }
+
+    function validatePasswordForm() {
+        var password = document.getElementById("password").value;
+
+        if (password === "") {
+            alert("비밀번호를 입력하세요.");
+            return false;
+        }
+        return true;
+    }
+</script>
+</html>
