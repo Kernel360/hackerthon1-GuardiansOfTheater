@@ -5,10 +5,8 @@ package org.example.springsecurityexample.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.springsecurityexample.domain.Authority;
-import org.example.springsecurityexample.domain.Member;
 import org.example.springsecurityexample.dto.SignRequest;
 import org.example.springsecurityexample.dto.SignResponse;
-import org.example.springsecurityexample.dto.TokenDto;
 import org.example.springsecurityexample.repository.MemberRepository;
 import org.example.springsecurityexample.service.SignService;
 import org.springframework.http.HttpStatus;
@@ -16,8 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,27 +35,27 @@ public class SignController {
         return "auth/login";
     }
 
-    @PostMapping("/api")
-    @ResponseBody
-    public ResponseEntity<SignResponse> apiLogin(
-            @RequestBody SignRequest request,
-            Model model
-    ) throws Exception {
-        ResponseEntity<SignResponse> response = new ResponseEntity<>(
-                signService.login(request),
-                HttpStatus.OK
-        );
-        if (!response.getStatusCode().is2xxSuccessful()) {
-            model.addAttribute("error", true);
-            model.addAttribute("etext", "로그인 실패");
-            log.info("loog err : {}", model.getAttribute("error"));
-            log.info("loog err : {}", model.getAttribute("error"));
-        }
-        log.info("loog api response : {}", response.getStatusCode());
-        log.info("loog api response : {}", response.getBody().getRoles().stream().map(Authority::getName));
-        model.addAttribute("response", response.getBody());
-        return response;
-    }
+//    @PostMapping("/api")
+//    @ResponseBody
+//    public ResponseEntity<SignResponse> apiLogin(
+//            @RequestBody SignRequest request,
+//            Model model
+//    ) throws Exception {
+//        ResponseEntity<SignResponse> response = new ResponseEntity<>(
+//                signService.login(request),
+//                HttpStatus.OK
+//        );
+//        if (!response.getStatusCode().is2xxSuccessful()) {
+//            model.addAttribute("error", true);
+//            model.addAttribute("etext", "로그인 실패");
+//            log.info("loog err : {}", model.getAttribute("error"));
+//            log.info("loog err : {}", model.getAttribute("error"));
+//        }
+//        log.info("loog api response : {}", response.getStatusCode());
+//        log.info("loog api response : {}", response.getBody().getRoles().stream().map(Authority::getName));
+//        model.addAttribute("response", response.getBody());
+//        return response;
+//    }
 
     @PostMapping("/login")
     public String postLogin(
@@ -78,20 +78,8 @@ public class SignController {
         log.info("loog post response : {}", response.getBody().getRoles().stream().map(Authority::getName));
         map.addAttribute("data", response);
         httpReq.setAttribute("member", memberRepository.findByAccount(res.getAccount()).get());
-        return "redirect:/user";
+        return "user/monitoring";
     }
-//
-//    @GetMapping("/user")
-//    public String getUserInfo(
-//            Model model
-//    ) {
-//        model.addAttribute("account", "SampleAccount");
-//        model.addAttribute("password", "********");
-//        model.addAttribute("nickname", "SampleNickname");
-//        model.addAttribute("name", "John Doe");
-//        model.addAttribute("email", "johndoe@example.com");
-//        return "user/information"; // This should match the name of your Thymeleaf template file.
-//    }
 
     @GetMapping("/register/view")
     public String registerView() {
@@ -100,13 +88,16 @@ public class SignController {
 
     @PostMapping("/register")
     public String register(
+            HttpServletRequest httpReq,
             SignRequest request,
-            Model model
+            ModelMap map
     ) throws Exception {
         ResponseEntity<Boolean> response = new ResponseEntity<>(signService.register(request), HttpStatus.OK);
-        model.addAttribute("callback", true);
-        log.info("loog register : {}", response.getStatusCode());
-        log.info("loog user : {}", signService.login(request).getAccount());
+        SignResponse res = signService.login(request);
+        map.addAttribute("data", res);
+        httpReq.setAttribute("member", memberRepository.findByAccount(res.getAccount()).get());
+//        log.info("loog register : {}", res.getStatusCode());
+        log.info("loog user : {}", res.getAccount());
         return "user/monitoring";
     }
 
@@ -116,19 +107,28 @@ public class SignController {
             @RequestBody SignRequest request
     ) throws Exception {
         ResponseEntity<Boolean> response = new ResponseEntity<>(signService.register(request), HttpStatus.OK);
-        log.info("loog register : {}", response.getStatusCode());
+
         log.info("loog user : {}", signService.login(request).getAccount());
 //        return "redirect:/user";
         return response;
     }
 
-    @GetMapping("/admin/get")
-    public ResponseEntity<SignResponse> getUserForAdmin(@RequestParam String account) throws Exception {
-        return new ResponseEntity<>(signService.getMember(account), HttpStatus.OK);
+    @GetMapping("/information")
+    public String getUserInfo(
+            Model model
+    ) throws Exception {
+//        httpReq.setAttribute("member", memberRepository.findByAccount(res.getAccount()).get());
+        model.addAttribute("theater", signService.getMember("afef"));
+        return "user/update"; // This should match the name of your Thymeleaf template file.
     }
-
-    @GetMapping("/refresh")
-    public ResponseEntity<TokenDto> refresh(@RequestBody TokenDto token) throws Exception {
-        return new ResponseEntity<>(signService.refreshAccessToken(token), HttpStatus.OK);
-    }
+//
+//    @GetMapping("/admin/get")
+//    public ResponseEntity<SignResponse> getUserForAdmin(@RequestParam String account) throws Exception {
+//        return new ResponseEntity<>(signService.getMember(account), HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/refresh")
+//    public ResponseEntity<TokenDto> refresh(@RequestBody TokenDto token) throws Exception {
+//        return new ResponseEntity<>(signService.refreshAccessToken(token), HttpStatus.OK);
+//    }
 }

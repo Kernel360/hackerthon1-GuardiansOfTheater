@@ -12,6 +12,8 @@ import org.example.springsecurityexample.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.example.springsecurityexample.repository.MemberRepository;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -72,7 +74,6 @@ public class SignService {
                     .name(request.getName())
                     .email(request.getEmail())
                     .build();
-
             member.setRoles(Collections.singletonList(Authority.builder().name("ROLE_USER").build()));
             Member m = memberRepository.save(member);
             log.info("loog : {}", m.toString());

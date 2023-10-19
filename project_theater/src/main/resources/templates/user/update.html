@@ -11,17 +11,19 @@
     <h1>회원정보 수정</h1>
 
     <!-- 극장 정보 수정 폼 -->
-    <form th:action="@{/update-theater-info}" method="post">
+    <form>
         <!-- theater.name 수정 필드 -->
         <div class="form-group">
             <label for="theaterName">극장 이름</label>
-            <input type="text" class="form-control" id="theaterName" name="theaterName" th:value="${theater.name}" placeholder="극장 이름을 입력하세요" required>
+            <input type="text" class="form-control" id="theaterName" name="theaterName" th:value="${theater.name}"
+                   placeholder="극장 이름을 입력하세요" required>
         </div>
 
         <!-- theater.working_zone 수정 필드 -->
         <div class="form-group">
             <label for="workingZone">근무 지역</label>
-            <input type="text" class="form-control" id="workingZone" name="workingZone" th:value="${theater.working_zone}" placeholder="근무 지역을 입력하세요" required>
+            <input type="text" class="form-control" id="workingZone" name="workingZone"
+                   th:value="${theater.working_zone}" placeholder="근무 지역을 입력하세요" required>
         </div>
 
         <!-- 극장 정보 수정 버튼 -->
@@ -31,29 +33,24 @@
     <hr> <!-- 구분선 -->
 
     <!-- 비밀번호 수정 폼 -->
-    <form th:action="@{/update-password}" method="post">
+    <!--    <form th:action="@{/update-password}" method="post">-->
+    <form>
         <!-- member.pw 수정 필드 -->
         <div class="form-group">
             <label for="password">비밀번호</label>
-            <input type="password" class="form-control" id="password" name="password" th:value="${member.pw}" placeholder="새로운 비밀번호를 입력하세요" required>
+            <input type="password" class="form-control" id="password" name="password" th:value="${member.pw}"
+                   placeholder="새로운 비밀번호를 입력하세요" required>
         </div>
 
         <!-- 비밀번호 수정 버튼 -->
         <button type="submit" class="btn btn-primary">비밀번호 수정</button>
     </form>
 </div>
-<div>Teachable Machine Pose Model</div>
-<button type="button" onclick="init()">Start</button>
-<div><canvas id="canvas"></canvas></div>
-<div id="label-container"></div>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
-
-
 <!-- 부트스트랩 JavaScript 및 jQuery 링크 -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
 
 <script>
     function validateTheaterInfoForm() {
@@ -77,53 +74,4 @@
         return true;
     }
 </script>
-
-<script>
-    const URL = "https://teachablemachine.withgoogle.com/models/Izav0upIo/";
-    let model, webcam, ctx, labelContainer, maxPredictions;
-
-    async function init() {
-        const modelURL = URL + "model.json";
-        const metadataURL = URL + "metadata.json";
-
-        // load the model and metadata
-        model = await tmPose.load(modelURL, metadataURL);
-        maxPredictions = model.getTotalClasses();
-
-        // Webcam 설정
-        const size = 200;
-        const flip = true; // 웹캠 영상을 뒤집을지 여부
-        webcam = new tmPose.Webcam(size, size, flip);
-        await webcam.setup(); // 웹캠 접근 권한 요청
-        await webcam.play();
-        window.requestAnimationFrame(loop);
-
-        // 요소 가져오기 및 설정
-        const canvas = document.getElementById("canvas");
-        canvas.width = size;
-        canvas.height = size;
-        ctx = canvas.getContext("2d");
-        labelContainer = document.getElementById("label-container");
-        for (let i = 0; i < maxPredictions; i++) {
-            labelContainer.appendChild(document.createElement("div"));
-        }
-    }
-
-    async function predict() {
-        const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
-        const prediction = await model.predict(posenetOutput);
-
-        for (let i = 0; i < maxPredictions; i++) {
-            const classPrediction =
-                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-            labelContainer.childNodes[i].innerHTML = classPrediction;
-        }
-
-        drawPose(pose);
-    }
-</script>
-
-
-
-</body>
 </html>

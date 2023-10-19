@@ -2,6 +2,7 @@ package org.example.springsecurityexample.Config.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.springsecurityexample.service.SignService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,16 +38,15 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register/**", "/login/**", "/refresh", "/", "/api/**").permitAll()
+                .antMatchers("/register/**", "/login/**", "/refresh", "/api/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
                 .and()
                 .formLogin()
                 .loginPage("/login/view") // Set the custom login page
                 .failureUrl("/login/view")
-                .defaultSuccessUrl("/user", true).and()
-                .logout()
-                .logoutSuccessUrl("/login/view/?logout").and()
+//                .defaultSuccessUrl("/user", true).and()
+                .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .accessDeniedHandler(customAccessDeniedHandler()); // Custom access denied handler
@@ -100,10 +100,10 @@ public class SecurityConfig {
             log.info("loog req : {}", request.getRequestURI());
             log.info("loog res : {}", response.getStatus());
             log.info("loog authException : {}", authException.getCause());
-            response.setStatus(401);
-            response.setCharacterEncoding("utf-8");
-            response.setContentType("text/html; charset=UTF-8");
-            response.getWriter().write("인증되지 않은 사용자입니다.");
+//            response.setStatus(401);
+//            response.setCharacterEncoding("utf-8");
+//            response.setContentType("text/html; charset=UTF-8");
+//            response.getWriter().write("인증되지 않은 사용자입니다.");
         };
     }
 }
